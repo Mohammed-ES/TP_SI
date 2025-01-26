@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammed Transport</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .header p {
+            font-size: 1.5rem;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            text-align: center;
+        }
+
+        .btn {
+            background: #fff;
+            color: #2575fc;
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #2575fc;
+            color: #fff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container {
+            display: none;
+            padding: 20px;
+            background: #fff;
+            color: #000;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-container input, .form-container select, .form-container button {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            background: #2575fc;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .form-container button:hover {
+            background: #6a11cb;
+        }
+
+        .thank-you {
+            display: none;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Bienvenue chez Mohammed Transport</h1>
+        <p>Gérez votre entité avec facilité</p>
+    </div>
+
+    <div class="container">
+        <button class="btn" onclick="showForm()">Entrer</button>
+    </div>
+
+    <div class="form-container" id="form-container">
+        <h2>Ajouter un Véhicule</h2>
+        <form onsubmit="submitForm(event)">
+            <label for="vehicle_id">Numéro d'identification :</label>
+            <input type="text" id="vehicle_id" name="vehicle_id" required>
+
+            <label for="type">Type de véhicule :</label>
+            <input type="text" id="type" name="type" required>
+
+            <label for="max_passengers">Nombre maximal de passagers :</label>
+            <input type="number" id="max_passengers" name="max_passengers" required>
+
+            <label for="state">État :</label>
+            <select id="state" name="state" required>
+                <option value="operationnel">Opérationnel</option>
+                <option value="maintenance">En maintenance</option>
+                <option value="hors_service">Hors service</option>
+            </select>
+
+            <label for="brand">Marque :</label>
+            <input type="text" id="brand" name="brand" required>
+
+            <label for="model">Modèle :</label>
+            <input type="text" id="model" name="model" required>
+
+            <label for="year">Année de fabrication :</label>
+            <input type="number" id="year" name="year" required>
+
+            <button type="submit">Ajouter</button>
+        </form>
+    </div>
+
+    <div class="thank-you" id="thank-you">
+        <p>Merci d'avoir rempli le formulaire. Véhicule ajouté avec succès !</p>
+    </div>
+
+    <script>
+        function showForm() {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('form-container').style.display = 'block';
+        }
+
+        function submitForm(event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+
+            // Simulation de l'insertion (vous pouvez relier ici à PHP si nécessaire)
+            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('thank-you').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

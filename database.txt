@@ -1,0 +1,185 @@
+/*==============================================================*/
+/* Nom de SGBD :  MySQL 5.0                                     */
+/* Date de création :  12/31/2024 3:15:40 PM                    */
+/*==============================================================*/
+
+
+drop table if exists AFFECTE_A;
+
+drop table if exists ASSISTANTE;
+
+drop table if exists CAMPUS;
+
+drop table if exists CHAUFFEUR;
+
+drop table if exists DIRECTEUR;
+
+drop table if exists DOCUMENT;
+
+drop table if exists ELEVE;
+
+drop table if exists ITINERAIRE;
+
+drop table if exists TRANSACTION;
+
+drop table if exists VEHICULE;
+
+/*==============================================================*/
+/* Table : AFFECTE_A                                            */
+/*==============================================================*/
+create table AFFECTE_A
+(
+   ID_ELEVE             numeric(4,0) not null,
+   ID_ITINERAIRE_       numeric(4,0) not null,
+   primary key (ID_ELEVE, ID_ITINERAIRE_)
+);
+
+/*==============================================================*/
+/* Table : ASSISTANTE                                           */
+/*==============================================================*/
+create table ASSISTANTE
+(
+   CIN_AS               char(10) not null,
+   NOM_AS               char(10),
+   PRENOM_AS            char(10),
+   ADRESSE_AS           char(10),
+   TELEPHONE_AS         char(10),
+   primary key (CIN_AS)
+);
+
+/*==============================================================*/
+/* Table : CAMPUS                                               */
+/*==============================================================*/
+create table CAMPUS
+(
+   ID_CAMPUS            numeric(8,0) not null,
+   ID_ELEVE             numeric(4,0) not null,
+   ADRESSE_             varchar(250),
+   TELEPHONE_           char(15),
+   VILLE                text,
+   primary key (ID_CAMPUS)
+);
+
+/*==============================================================*/
+/* Table : CHAUFFEUR                                            */
+/*==============================================================*/
+create table CHAUFFEUR
+(
+   CIN_                 char(10) not null,
+   NOM_                 varchar(50),
+   PRENOM_              varchar(50),
+   ADRESSE_             varchar(250),
+   TELEPHONE_           char(15),
+   primary key (CIN_)
+);
+
+/*==============================================================*/
+/* Table : DIRECTEUR                                            */
+/*==============================================================*/
+create table DIRECTEUR
+(
+   CIN                  char(10) not null,
+   ID_CAMPUS            numeric(8,0) not null,
+   NOM_                 varchar(50),
+   PRENOM               char(50),
+   ADRESSE              varchar(250),
+   TELEPHONE            char(15),
+   DIPLOME              varchar(100),
+   HISTORIQUE           text,
+   primary key (CIN)
+);
+
+/*==============================================================*/
+/* Table : DOCUMENT                                             */
+/*==============================================================*/
+create table DOCUMENT
+(
+   ID_DOCUMENT_         numeric(4,0) not null,
+   ID_VEHICULE_         numeric(4,0),
+   TYPE_                varchar(50),
+   VALIDITE_            date,
+   primary key (ID_DOCUMENT_)
+);
+
+/*==============================================================*/
+/* Table : ELEVE                                                */
+/*==============================================================*/
+create table ELEVE
+(
+   ID_ELEVE             numeric(4,0) not null,
+   NOM_                 varchar(50),
+   PRENOM_              varchar(50),
+   CLASSE_              varchar(20),
+   primary key (ID_ELEVE)
+);
+
+/*==============================================================*/
+/* Table : ITINERAIRE                                           */
+/*==============================================================*/
+create table ITINERAIRE
+(
+   ID_ITINERAIRE_       numeric(4,0) not null,
+   LIBELLE_             varchar(100),
+   DESCRIPTION_         text,
+   TARIF_               float(2),
+   primary key (ID_ITINERAIRE_)
+);
+
+/*==============================================================*/
+/* Table : TRANSACTION                                          */
+/*==============================================================*/
+create table TRANSACTION
+(
+   ID_TRANSACTION_      numeric(8,0) not null,
+   ID_ELEVE             numeric(4,0) not null,
+   ANNEE_SCOLAIRE_      char(9),
+   DATE_PAIEMENT_       date,
+   TYPE_PAIEMENT_       varchar(20),
+   MONTANT_             float(2),
+   primary key (ID_TRANSACTION_)
+);
+
+/*==============================================================*/
+/* Table : VEHICULE                                             */
+/*==============================================================*/
+CREATE TABLE vehicles (
+    vehicle_id VARCHAR(50) PRIMARY KEY,
+    type VARCHAR(50) NOT NULL,
+    max_passengers INT NOT NULL,
+    state ENUM('operationnel', 'maintenance', 'hors_service') NOT NULL,
+    brand VARCHAR(50) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    year INT NOT NULL
+);
+
+
+alter table AFFECTE_A add constraint FK_AFFECTE_A foreign key (ID_ITINERAIRE_)
+      references ITINERAIRE (ID_ITINERAIRE_) on delete restrict on update restrict;
+
+alter table AFFECTE_A add constraint FK_AFFECTE_A2 foreign key (ID_ELEVE)
+      references ELEVE (ID_ELEVE) on delete restrict on update restrict;
+
+alter table CAMPUS add constraint FK_APPARTIENT_A foreign key (ID_ELEVE)
+      references ELEVE (ID_ELEVE) on delete restrict on update restrict;
+
+alter table DIRECTEUR add constraint FK_SOUS_LE_RESPONSABILITE_DE foreign key (ID_CAMPUS)
+      references CAMPUS (ID_CAMPUS) on delete restrict on update restrict;
+
+alter table DOCUMENT add constraint FK_COUVERT_PAR foreign key (ID_VEHICULE_)
+      references VEHICULE (ID_VEHICULE_) on delete restrict on update restrict;
+
+alter table TRANSACTION add constraint FK_EFFECTUE foreign key (ID_ELEVE)
+      references ELEVE (ID_ELEVE) on delete restrict on update restrict;
+
+alter table VEHICULE add constraint FK_ASSISTE foreign key (CIN_AS)
+      references ASSISTANTE (CIN_AS) on delete restrict on update restrict;
+
+alter table VEHICULE add constraint FK_ASSOCIE_PAR foreign key (ID_ITINERAIRE_)
+      references ITINERAIRE (ID_ITINERAIRE_) on delete restrict on update restrict;
+
+alter table VEHICULE add constraint FK_CONDUIT_PAR foreign key (CIN_)
+      references CHAUFFEUR (CIN_) on delete restrict on update restrict;
+
+alter table VEHICULE add constraint FK_POSSEDE foreign key (ID_CAMPUS)
+      references CAMPUS (ID_CAMPUS) on delete restrict on update restrict;
+
